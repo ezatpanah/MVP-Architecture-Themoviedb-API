@@ -1,4 +1,4 @@
-package com.ezatpanah.themoviedb_api_mvp.ui
+package com.ezatpanah.themoviedb_api_mvp.ui.details
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,15 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ezatpanah.themoviedb_api_mvp.R
+import dagger.hilt.android.AndroidEntryPoint
 
-class SplashFragment : Fragment() {
+@AndroidEntryPoint
+class DetailsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_splash, container, false)
+        return inflater.inflate(R.layout.fragment_details, container, false)
     }
+
 
 }

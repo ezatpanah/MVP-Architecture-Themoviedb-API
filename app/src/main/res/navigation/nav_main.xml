@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.ezatpanah.themoviedb_api_mvp.ui.SplashFragment"
+        android:name="com.ezatpanah.themoviedb_api_mvp.ui.splash.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.ezatpanah.themoviedb_api_mvp.ui.DetailsFragment"
+        android:name="com.ezatpanah.themoviedb_api_mvp.ui.details.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" >
         <argument
@@ -31,17 +31,17 @@
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.ezatpanah.themoviedb_api_mvp.ui.FavoritesFragment"
+        android:name="com.ezatpanah.themoviedb_api_mvp.ui.favorites.FavoritesFragment"
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.ezatpanah.themoviedb_api_mvp.ui.HomeFragment"
+        android:name="com.ezatpanah.themoviedb_api_mvp.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.ezatpanah.themoviedb_api_mvp.ui.SearchFragment"
+        android:name="com.ezatpanah.themoviedb_api_mvp.ui.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
 </navigation>
