@@ -13,23 +13,22 @@ import com.ezatpanah.themoviedb_api_mvp.response.CommonMoviesListResponse
 import com.ezatpanah.themoviedb_api_mvp.utils.Constants.POSTER_BASE_URL
 import javax.inject.Inject
 
-class CommonMoviesAdapter @Inject constructor() : PagingDataAdapter<CommonMoviesListResponse.Result,CommonMoviesAdapter.ViewHolder>(differCallback) {
+class CommonMoviesAdapter @Inject constructor() : RecyclerView.Adapter<CommonMoviesAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemMoviesCommonBinding
-    private lateinit var context: Context
-
+    private var moviesList = emptyList<CommonMoviesListResponse.Result>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = ItemMoviesCommonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        context = parent.context
         return ViewHolder()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setData(getItem(position)!!)
+        holder.setData(moviesList[position])
         holder.setIsRecyclable(false)
     }
 
+    override fun getItemCount(): Int = moviesList.size
 
     inner class ViewHolder() : RecyclerView.ViewHolder(binding.root) {
         fun setData(item: CommonMoviesListResponse.Result) {
@@ -39,7 +38,7 @@ class CommonMoviesAdapter @Inject constructor() : PagingDataAdapter<CommonMovies
                 movieYearTxt.text = item.releaseDate
                 movieCountryTxt.text = item.originalLanguage
 
-                val moviePosterURL = POSTER_BASE_URL + item.posterPath
+                val moviePosterURL = POSTER_BASE_URL + item?.posterPath
                 moviePosterImg.load(moviePosterURL) {
                     crossfade(true)
                     crossfade(800)
@@ -59,23 +58,31 @@ class CommonMoviesAdapter @Inject constructor() : PagingDataAdapter<CommonMovies
         onItemClickListener=listener
     }
 
-//    fun bind(data:List<CommonMoviesListResponse>){
-//        val moviesDiffUtils = FavoriteMoviesAdapter.MoviesDiffUtils(moviesList, data)
-//        val diffUtils = DiffUtil.calculateDiff(moviesDiffUtils)
-//        moviesList=data
-//        diffUtils.dispatchUpdatesTo(this)
-//    }
-
-    companion object {
-        val differCallback = object : DiffUtil.ItemCallback<CommonMoviesListResponse.Result>() {
-            override fun areItemsTheSame(oldItem: CommonMoviesListResponse.Result, newItem: CommonMoviesListResponse.Result): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: CommonMoviesListResponse.Result, newItem: CommonMoviesListResponse.Result): Boolean {
-                return oldItem == newItem
-            }
-        }
+    fun bind(data:List<CommonMoviesListResponse.Result>){
+        val moviesDiffUtils = MoviesDiffUtils(moviesList,data)
+        val diffUtils = DiffUtil.calculateDiff(moviesDiffUtils)
+        moviesList=data
+        diffUtils.dispatchUpdatesTo(this)
     }
 
+    //callback
+    class MoviesDiffUtils(private val oldItem:List<CommonMoviesListResponse.Result>, private val newItem:List<CommonMoviesListResponse.Result>) : DiffUtil.Callback(){
+        override fun getOldListSize(): Int {
+            return oldItem.size
+        }
+
+        override fun getNewListSize(): Int {
+            return newItem.size
+        }
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            // === data type is compred here
+            return oldItem[oldItemPosition] === newItem[newItemPosition]
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldItem[oldItemPosition] === newItem[newItemPosition]
+        }
+
+    }
 }

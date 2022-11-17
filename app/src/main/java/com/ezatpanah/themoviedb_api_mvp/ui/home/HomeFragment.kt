@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,9 +18,7 @@ import com.ezatpanah.themoviedb_api_mvp.response.CommonMoviesListResponse
 import com.ezatpanah.themoviedb_api_mvp.response.GenresListResponse
 import com.ezatpanah.themoviedb_api_mvp.response.UpcomingMoviesListResponse
 import com.ezatpanah.themoviedb_api_mvp.utils.CheckConnection
-import com.ezatpanah.themoviedb_api_mvp.viewmodel.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -43,8 +40,6 @@ class HomeFragment : Fragment(), HomeContracts.View {
 
     private val pagerHelper: PagerSnapHelper by lazy { PagerSnapHelper() }
 
-    private val viewModel: MoviesViewModel by viewModels()
-
 
     private val checkConnection by lazy { CheckConnection(requireActivity().application) }
 
@@ -59,6 +54,7 @@ class HomeFragment : Fragment(), HomeContracts.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         homePresenter.callUpcomingMoviesList(1)
         homePresenter.callGenres()
         homePresenter.callPopularMoviesList(1)
@@ -88,27 +84,52 @@ class HomeFragment : Fragment(), HomeContracts.View {
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 adapter = genreMoviesAdapter
             }
+            genreMoviesAdapter.setonItemClickListener {
+                homePresenter.callMoviesGenres(1, it.id.toString())
+            }
         }
     }
 
     override fun loadMoviesGenres(data: CommonMoviesListResponse) {
-
-    }
-
-    override fun loadPopularMoviesList(data: CommonMoviesListResponse) {
         binding.apply {
 
             lifecycleScope.launchWhenCreated {
-                viewModel.moviesList.collect{
-                    commonMoviesAdapter.submitData(it)
-                }
+                commonMoviesAdapter.bind(data.results)
             }
-
 
             lastMoviesRecycler.apply {
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 adapter = commonMoviesAdapter
             }
+        }
+    }
+
+
+    override fun loadPopularMoviesList(data: CommonMoviesListResponse) {
+        binding.apply {
+
+            lifecycleScope.launchWhenCreated {
+                commonMoviesAdapter.bind(data.results)
+            }
+
+            lastMoviesRecycler.apply {
+                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                adapter = commonMoviesAdapter
+            }
+        }
+    }
+
+    override fun showLoading() {
+       binding.apply {
+           moviesLoading.visibility = View.VISIBLE
+           lastMoviesLay.visibility = View.GONE
+       }
+    }
+
+    override fun hideLoading() {
+        binding.apply {
+            moviesLoading.visibility = View.GONE
+            lastMoviesLay.visibility = View.VISIBLE
         }
     }
 
@@ -118,7 +139,7 @@ class HomeFragment : Fragment(), HomeContracts.View {
 
     override fun onDestroy() {
         super.onDestroy()
-
+        homePresenter.onStop()
     }
 
 }
