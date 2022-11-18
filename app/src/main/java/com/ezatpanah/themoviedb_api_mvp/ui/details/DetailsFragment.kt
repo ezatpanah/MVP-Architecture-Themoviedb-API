@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -38,6 +40,7 @@ class DetailsFragment : Fragment(), DetailsContracts.View {
 
     @Inject
     lateinit var detailsPresenter: DetailsPresenter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,6 +82,16 @@ class DetailsFragment : Fragment(), DetailsContracts.View {
             movieTimeTxt.text = data.runtime.toString()
             movieDateTxt.text = data.releaseDate
             movieSummaryInfo.text = data.overview
+
+            entity.id = movieId
+            entity.poster = data.posterPath
+            entity.lang = data.originalLanguage
+            entity.title = data.title
+            entity.rate = data.voteAverage.toString()
+            entity.year = data.releaseDate
+
+            detailsPresenter.checkFavorite(movieId)
+
         }
     }
 
@@ -88,6 +101,25 @@ class DetailsFragment : Fragment(), DetailsContracts.View {
             imagesRecyclerView.apply {
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 adapter = imagesAdapter
+            }
+        }
+    }
+
+    override fun updateFavorite(isAdded: Boolean) {
+        binding.apply {
+            //Click
+            favImg.setOnClickListener {
+                if (isAdded) {
+                    detailsPresenter.deleteMovie(entity)
+                } else {
+                    detailsPresenter.saveMovie(entity)
+                }
+            }
+            //Change color
+            if (isAdded) {
+                favImg.setColorFilter(ContextCompat.getColor(requireContext(), R.color.scarlet))
+            } else {
+                favImg.setColorFilter(ContextCompat.getColor(requireContext(), R.color.philippineSilver))
             }
         }
     }

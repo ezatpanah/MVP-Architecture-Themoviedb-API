@@ -13,7 +13,7 @@ import dagger.hilt.android.components.FragmentComponent
 
 @Module
 @InstallIn(FragmentComponent::class)
-class ContractsModule {
+object ContractsModule {
 
     @Provides
     fun homeView(fragment: Fragment): HomeContracts.View {

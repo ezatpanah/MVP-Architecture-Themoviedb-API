@@ -1,14 +1,19 @@
 package com.ezatpanah.themoviedb_api_mvp.ui.details
 
 import android.util.Log
+import com.ezatpanah.themoviedb_api_mvp.db.MoviesEntity
 import com.ezatpanah.themoviedb_api_mvp.repository.ApiRepository
+import com.ezatpanah.themoviedb_api_mvp.repository.DatabaseRepository
 import com.ezatpanah.themoviedb_api_mvp.ui.base.BasePresenterImpl
 import com.ezatpanah.themoviedb_api_mvp.utils.applyIoScheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class DetailsPresenter
 @Inject constructor(
     private val repository: ApiRepository,
+    private val dbRepository: DatabaseRepository,
     val view: DetailsContracts.View,
 ) : DetailsContracts.Presenter, BasePresenterImpl() {
     override fun callDetailsMovie(id: Int) {
@@ -58,5 +63,33 @@ class DetailsPresenter
                 }
             }
     }
+
+    override fun saveMovie(entity: MoviesEntity) {
+        disposable = dbRepository.insertMovie(entity)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                view.updateFavorite(true)
+            }
+    }
+
+    override fun deleteMovie(entity: MoviesEntity) {
+        disposable = dbRepository.deleteMovie(entity)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                view.updateFavorite(false)
+            }
+    }
+
+    override fun checkFavorite(id: Int) {
+        disposable = dbRepository.existMovie(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                view.updateFavorite(it)
+            }
+    }
+
 
 }

@@ -55,7 +55,7 @@ class FavoriteMoviesAdapter @Inject constructor() : RecyclerView.Adapter<Favorit
     }
 
     private var onItemClickListener : ((MoviesEntity) -> Unit)? = null
-    fun setonItemClickListener(listener: (MoviesEntity) -> Unit) {
+    fun setOnItemClickListener(listener: (MoviesEntity) -> Unit) {
         onItemClickListener=listener
     }
 

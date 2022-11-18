@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.favorites.FavoritesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,17 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingTop="10dp" />
+
+    <ProgressBar
+        android:id="@+id/favLoading"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/emptyItemsLay"
         android:layout_width="match_parent"
@@ -20,5 +32,6 @@
         <include layout="@layout/empty_items" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

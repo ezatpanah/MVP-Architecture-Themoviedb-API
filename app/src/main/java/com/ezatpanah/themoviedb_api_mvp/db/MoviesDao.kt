@@ -2,20 +2,22 @@ package com.ezatpanah.themoviedb_api_mvp.db
 
 import androidx.room.*
 import com.ezatpanah.themoviedb_api_mvp.utils.Constants.MOVIES_TABLE
+import io.reactivex.Completable
+import io.reactivex.Observable
 
 @Dao
 interface MoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun  insertMovie(entity: MoviesEntity)
+    fun  insertMovie(entity: MoviesEntity) : Completable
 
     @Delete
-    suspend fun deleteMovie(entity: MoviesEntity)
+    fun deleteMovie(entity: MoviesEntity) : Completable
 
     @Query("SELECT * From ${MOVIES_TABLE}")
-    fun getAllMovies() : MutableList<MoviesEntity>
+    fun getAllMovies() : Observable<MutableList<MoviesEntity>>
 
     @Query("SELECT EXISTS (SELECT 1 FROM ${MOVIES_TABLE} WHERE id = :id)")
-    suspend fun existMovie(id:Int) : Boolean
+    fun existMovie(id:Int) : Observable<Boolean>
 
 
 }
