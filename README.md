@@ -19,8 +19,7 @@ Technologies and Libraries Used :
 - RxJava
 - Room Database
 - Coil
-- Youtube API
-- Lottie
+
 
 
 Screen-Shot :
