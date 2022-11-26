@@ -1,6 +1,7 @@
 package com.ezatpanah.themoviedb_api_mvp.api
 
 import com.ezatpanah.themoviedb_api_mvp.response.*
+import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -19,24 +20,24 @@ interface ApiServices {
 
 
     @GET("movie/upcoming")
-    suspend fun getUpcomingMoviesList(@Query("page") page: Int): Response<UpcomingMoviesListResponse>
+    fun getUpcomingMoviesList(@Query("page") page: Int): Single<Response<UpcomingMoviesListResponse>>
 
     @GET("genre/movie/list")
-    suspend fun getGenres(): Response<GenresListResponse>
+    fun getGenres(): Single<Response<GenresListResponse>>
 
     @GET("discover/movie")
-    suspend fun getMoviesGenres(@Query("page") page: Int,@Query("with_genres") with_genres: String): Response<CommonMoviesListResponse>
+    fun getMoviesGenres(@Query("page") page: Int,@Query("with_genres") with_genres: String): Single<Response<CommonMoviesListResponse>>
 
     @GET("movie/popular")
-    suspend fun getPopularMoviesList(@Query("page") page: Int ): Response<CommonMoviesListResponse>
+    fun getPopularMoviesList(@Query("page") page: Int ): Single<Response<CommonMoviesListResponse>>
 
     @GET("search/movie")
-    suspend fun getSearchMoviesList(@Query("page") page: Int,@Query("query") query: String): Response<CommonMoviesListResponse>
+    fun getSearchMoviesList(@Query("page") page: Int,@Query("query") query: String): Single<Response<CommonMoviesListResponse>>
 
     @GET("movie/{movie_id}")
-    suspend fun getMovieDetails(@Path("movie_id") id: Int): Response<DetailsMovieResponse>
+    fun getMovieDetails(@Path("movie_id") id: Int): Single<Response<DetailsMovieResponse>>
 
     @GET("movie/{movie_id}/credits")
-    suspend fun getMovieCredits(@Path("movie_id") id: Int): Response<CreditsLisResponse>
+    fun getMovieCredits(@Path("movie_id") id: Int): Single<Response<CreditsLisResponse>>
 
 }
