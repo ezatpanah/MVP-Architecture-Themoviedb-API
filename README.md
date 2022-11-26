@@ -10,13 +10,18 @@ The API’s Docs: https://developers.themoviedb.org/3/getting-started
 <br>
 <br>
 Technologies and Libraries Used :
-* Navigation Component
-* View Binding
-* Retrofit
-* Dagger Hilt
-* Coroutines
-* Live Data
-* Coil
+
+- MVP
+- Navigation Component
+- View Binding
+- Retrofit
+- Dagger Hilt
+- RxJava
+- Room Database
+- Coil
+- Youtube API
+- Lottie
+
 
 Screen-Shot :
 <br>
