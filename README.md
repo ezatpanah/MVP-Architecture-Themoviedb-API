@@ -2,7 +2,12 @@
 
 Overview :
 
-The purpose of this application is to provide a list of Movies and show the details of each Movie
+The purpose of this project series is to show different architectures with different structures, and you can check these architectures and structures.
+
+This project in
+- MVP architecture : Current Repo 
+- MVVM architecture : https://github.com/ezatpanah/Themoviedb-API-MVVM  [ Room Database - Dagger Hilt - RxJava -LiveData]
+- MVI architecture : Coming soon
 
 The app was written in Kotlin.
 
@@ -13,11 +18,11 @@ Technologies and Libraries Used :
 
 - MVP
 - Navigation Component
-- View Binding
+- Room Database
 - Retrofit
 - Dagger Hilt
 - RxJava
-- Room Database
+- View Binding
 - Coil
 
 
