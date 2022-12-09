@@ -1,7 +1,7 @@
 package com.ezatpanah.themoviedb_api_mvp.utils
 
 object Constants {
-    const val API_KEY = "49b4fef54b673ad70d751b5e714da91a"//"***"
+    const val API_KEY = "***"
     const val BASE_URL = "https://api.themoviedb.org/3/"
     const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342"
 
